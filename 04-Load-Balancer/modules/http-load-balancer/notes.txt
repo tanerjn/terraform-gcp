@@ -1,0 +1,6 @@
+Enabled services:
+
+Cloud Domains API
+Network Services API
+
+
