@@ -1,2 +1,4 @@
 genuine-rope-423613-a9-2622e3b947a2.json
 **/.terraform/
+**/terraform.tfstate*
+**/terraform.tfstate.backup
