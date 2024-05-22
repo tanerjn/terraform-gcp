@@ -3,3 +3,5 @@ genuine-rope-423613-a9-2622e3b947a2.json
 **/terraform.tfstate
 **/terraform.tfstate.backup
 **/terraform.lock.hcl
+.DS_Store
+**/.DS_Store:
