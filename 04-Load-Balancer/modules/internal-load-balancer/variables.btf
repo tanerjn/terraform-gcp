@@ -1,0 +1,35 @@
+variable "project_id" {
+  description = "The ID of the project in which to create the resources."
+  type        = string
+  default     = "genuine-rope-423613-a9"
+}
+
+variable "region" {
+  description = "The region in which to create the resources."
+  type        = string
+  default     = "us-central1"
+}
+
+variable "network" {
+  description = "The name of the VPC network."
+  type        = string
+  default     = "ilb-vpc"
+}
+
+variable "subnetwork" {
+  description = "The name of the subnetwork."
+  type        = string
+  default     = "subnet"
+}
+
+variable "instance_names" {
+  description = "List of instance names to be used as backends."
+  type        = list(string)
+  default     = ["instance-1", "instance-2", "instance-3"]
+}
+
+variable "instance_zone" {
+  description = "The zone where instances will be created."
+  type        = string
+  default     = "us-central1-a"
+}

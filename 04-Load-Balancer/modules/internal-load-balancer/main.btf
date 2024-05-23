@@ -1,0 +1,77 @@
+provider "google" {
+  project     = "genuine-rope-423613-a9"      # Replace with your GCP project ID
+  region      = var.region              # Replace with your preferred region
+  credentials = file("~/.ssh/gcp/genuine-rope-423613-a9-2622e3b947a2.json")  
+}
+
+resource "google_compute_network" "vpc_network" {
+  name                    = var.network
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_instance" "default" {
+  count        = length(var.instance_names)
+  name         = var.instance_names[count.index]
+  machine_type = "f1-micro"
+  zone         = var.instance_zone
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-10"
+    }
+  }
+  network_interface {
+    network    = var.network
+    subnetwork = var.subnetwork
+    access_config {
+      // Ephemeral IP
+    }
+  }
+  metadata_startup_script = <<-EOT
+    #! /bin/bash
+    sudo apt-get update
+    sudo apt-get install -y apache2
+    sudo systemctl start apache2
+    sudo systemctl enable apache2
+  EOT
+}
+
+resource "google_compute_health_check" "default" {
+  name               = "ilb-health-check"
+  check_interval_sec = 5
+  timeout_sec        = 5
+  healthy_threshold  = 2
+  unhealthy_threshold = 2
+  tcp_health_check {
+    port = "80"
+  }
+}
+
+resource "google_compute_instance_group" "default" {
+  name        = "ilb-instance-group"
+  zone        = var.instance_zone
+  instances   = google_compute_instance.default.*.self_link
+  named_port {
+    name = "http"
+    port = 80
+  }
+}
+
+resource "google_compute_backend_service" "default" {
+  name                  = "ilb-backend-service"
+  health_checks         = [google_compute_health_check.default.self_link]
+  load_balancing_scheme = "INTERNAL_MANAGED"
+  protocol              = "TCP"
+  backend {
+    group = google_compute_instance_group.default.self_link
+  }
+}
+
+resource "google_compute_forwarding_rule" "default" {
+  name                  = "ilb-forwarding-rule"
+  load_balancing_scheme = "INTERNAL"
+  ports                 = ["80"]
+  network               = var.network
+  subnetwork            = var.subnetwork
+  backend_service       = google_compute_backend_service.default.self_link
+  ip_protocol           = "TCP"
+}

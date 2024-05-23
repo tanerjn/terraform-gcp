@@ -1,0 +1,10 @@
+Internal Load Balancer:
+
+Purpose: Provides load balancing within a Virtual Private Cloud (VPC) for internal traffic.
+Features:
+Regional load balancing, distributing traffic across instances within the same region.
+Support for TCP and UDP traffic.
+Secure, private communication, ensuring that traffic does not leave the internal network.
+Integration with managed instance groups for auto-scaling and high availability.
+Use Cases: Suitable for internal applications and microservices that need to communicate within a VPC, such as backend services or databases.
+
