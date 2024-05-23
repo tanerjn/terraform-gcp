@@ -1,14 +1,12 @@
 # main.tf
 
-# Specify the Terraform version
 terraform {
   required_version = ">= 0.13"
 }
 
-# Configure the GCP provider
 provider "google" {
-  project     = "genuine-rope-423613-a9"      # Replace with your GCP project ID
-  region      = var.region              # Replace with your preferred region
+  project     = "genuine-rope-423613-a9"      
+  region      = var.region           
   credentials = file("~/.ssh/gcp/genuine-rope-423613-a9-2622e3b947a2.json")  
 }
 
@@ -114,12 +112,12 @@ resource "google_compute_firewall" "compute_firewall" {
 # Create bastion, db, compute instances in respective subnets
 resource "google_compute_instance" "bastion_instance" {
   name         = "bastion-instance"
-  machine_type = "f1-micro" # Change to your desired machine type
-  zone         = "us-central1-a" # Change to your desired zone
+  machine_type = "f1-micro" 
+  zone         = "us-central1-a"
    
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-10"  # Public image from GCP
+      image = "debian-cloud/debian-10" 
       size  = "10"            
     }
   }
@@ -134,7 +132,7 @@ resource "google_compute_instance" "bastion_instance" {
       // nat_ip = "static-ip-address"
 
       // Attach the firewall rule to the network interface
-      network_tier = "PREMIUM" // Optional: Change network tier if needed
+      network_tier = "PREMIUM"
     }
   }
   // Other instance configurations like boot disk, metadata, etc.
@@ -142,12 +140,12 @@ resource "google_compute_instance" "bastion_instance" {
 
 resource "google_compute_instance" "db_instance" {
   name         = "db-instance"
-  machine_type = "f1-micro" # Change to your desired machine type
-  zone         = "us-central1-b" # Change to your desired zone
+  machine_type = "f1-micro" 
+  zone         = "us-central1-b" 
   
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-10"  # Public image from GCP
+      image = "debian-cloud/debian-10"  
       size  = "10"           
     }
   }
@@ -162,7 +160,7 @@ resource "google_compute_instance" "db_instance" {
       // nat_ip = "static-ip-address"
 
       // Attach the firewall rule to the network interface
-      network_tier = "PREMIUM" // Optional: Change network tier if needed
+      network_tier = "PREMIUM" 
     }
   }
   // Other instance configurations like boot disk, metadata, etc.
@@ -175,7 +173,7 @@ resource "google_compute_instance" "compute_instance" {
 
     boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-10"  # Public image from GCP
+      image = "debian-cloud/debian-10" 
       size  = "10"             
     }
   }
@@ -191,9 +189,8 @@ resource "google_compute_instance" "compute_instance" {
       // nat_ip = "static-ip-address"
 
       // Attach the firewall rule to the network interface
-      network_tier = "PREMIUM" // Optional: Change network tier if needed
+      network_tier = "PREMIUM" 
     }
-
   }
   // Other instance configurations like boot disk, metadata, etc.
 }
