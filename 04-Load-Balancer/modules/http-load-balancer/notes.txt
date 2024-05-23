@@ -1,3 +1,14 @@
+HTTP(S) Load Balancer:
+
+Purpose: Designed for web applications and services, this load balancer distributes HTTP and HTTPS traffic.
+Features:
+Global load balancing, distributing traffic across multiple regions.
+SSL termination, offloading SSL decryption from your backend instances.
+Content-based routing, directing traffic based on URL paths and hostnames.
+Managed instance groups as backends, allowing seamless scaling.
+Use Cases: Ideal for web applications requiring global reach and low-latency distribution, such as e-commerce sites and web APIs.
+
+
 Enabled services:
 
 Cloud Domains API

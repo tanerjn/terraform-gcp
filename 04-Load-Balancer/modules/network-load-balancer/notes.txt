@@ -1,0 +1,9 @@
+Network Load Balancer:
+
+Purpose: Handles high-volume TCP/UDP traffic, distributing it at the network layer (Layer 4).
+Features:
+Regional load balancing.
+Low latency and high throughput.
+Support for both TCP and UDP traffic.
+Ability to handle sudden and large spikes in traffic.
+Use Cases: Ideal for applications requiring high performance and low latency, such as gaming servers, real-time communication applications, or large-scale applications needing to handle millions of requests per second.
