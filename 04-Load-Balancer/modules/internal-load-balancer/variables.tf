@@ -3,67 +3,52 @@
 variable "project_id" {
   description = "project-id"
   type        = string
+  default     = "genuine-rope-423613-a9"
 }
 
 variable "region" {
-  description = "region-name"
+  description = "region"
   type        = string
-  default     = "us-central1"
+  default     = "europe-west1"
 }
 
 variable "network_name" {
   description = "The name of the VPC network"
   type        = string
-  default     = "my-vpc-network"
+  default     = "l7-ilb-network"
 }
 
-variable "subnet_name_bastion" {
-  description = "The name of the subnet"
+variable "subnet_proxy" {
+  description = "address for proxy subnet"
   type        = string
-  default     = "bastion_subnet"
+  default     = "subnet_proxy"
 }
 
-variable "subnet_name_db" {
-  description = "The name of the subnet"
+variable "subnet_default" {
+  description = "address for default subnet"
   type        = string
-  default     = "db_subnet"
+  default     = "subnet_default"
 }
 
-variable "subnet_name_compute" {
-  description = "The name of the subnet"
-  type        = string
-  default     = "bastion_compute"
-}
-
-variable "subnet_cidr_bastion" {
-  description = "The CIDR range of the subnet"
+variable "subnet_cidr_proxy" {
+  description = "The CIDR range of the proxy subnet"
   type        = string
   default     = "10.0.0.0/24"
 }
 
-variable "subnet_cidr_db" {
-  description = "The CIDR range of the subnet"
+variable "subnet_cidr_default" {
+  description = "The CIDR range of the default subnet"
   type        = string
   default     = "10.0.1.0/24"
-}
-
-variable "subnet_cidr_compute" {
-  description = "The CIDR range of the subnet"
-  type        = string
-  default     = "10.0.2.0/24"
 }
 
 variable "instance_names" {
   description = "List of instance names to be used as backends."
   type        = list(string)
-  default     = ["instance-bastion", "instance-db", "instance-compute"]
-  validation {
-    condition     = length(var.instance_names) >= 3
-    error_message = "The instance_names list must have at least three elements."
-  }
+  default     = ["l7-ilb-mig-template", "instance-test"]
 }
 
-variable "instance_self_links" {
+variable "instance_links" {
   description = "List of instance self-links to be manually added to the instance group."
   type        = list(string)
   default     = []
@@ -72,5 +57,5 @@ variable "instance_self_links" {
 variable "instance_zone" {
   description = "The zone where instances will be created."
   type        = string
-  default     = "us-central1-b"
+  default     = "us-central1-c"
 }

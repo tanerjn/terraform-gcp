@@ -8,3 +8,8 @@ Secure, private communication, ensuring that traffic does not leave the internal
 Integration with managed instance groups for auto-scaling and high availability.
 Use Cases: Suitable for internal applications and microservices that need to communicate within a VPC, such as backend services or databases.
 
+
+should delete manually:
+Health checks
+Instance group
+
