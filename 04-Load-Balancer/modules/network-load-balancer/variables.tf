@@ -26,13 +26,25 @@ variable "global_access" {
 variable "network" {
   description = "Name of the network to create resources in."
   type        = string
-  default     = "default"
+  default     = "nlb-network"
+}
+
+variable "network_name" {
+  description = "Name of the network to create resources in."
+  type        = string
+  default     = "nlb"
 }
 
 variable "subnetwork" {
   description = "Name of the subnetwork to create resources in."
   type        = string
-  default     = "default"
+  default     = "subnet-default"
+}
+
+variable "subnet_cidr" {
+  description = "The CIDR range of the default subnet"
+  type        = string
+  default     = "10.0.1.0/24"
 }
 
 variable "network_project" {
@@ -72,20 +84,7 @@ variable "backends" {
 
 variable "session_affinity" {
   description = "The session affinity for the backends example: NONE, CLIENT_IP. Default is `NONE`."
-  default = [
-    {
-      name             = "backend1"
-      address          = "192.168.1.1"
-      group            = "group1"
-      session_affinity = "NONE"
-    },
-    {
-      name             = "backend2"
-      address          = "192.168.1.2"
-      group            = "group1"
-      session_affinity = "CLIENT_IP"
-    }
-  ]
+  default = "NONE"
 }
 
 variable "ports" {
@@ -100,28 +99,62 @@ variable "all_ports" {
   default     = null
 }
 
-variable "health_check" {
+variable "health_check_tcp" {
   description = "Health check to determine whether instances are responsive and able to do work"
   type = object({
-    check_interval_sec  = number
-    healthy_threshold   = number
-    timeout_sec         = number
-    unhealthy_threshold = number
-    port                = number
-    request_path        = string
-    host                = string
+    type                = string
+    check_interval_sec  = optional(number)
+    healthy_threshold   = optional(number)
+    timeout_sec         = optional(number)
+    unhealthy_threshold = optional(number)
+    response            = optional(string)
+    proxy_header        = optional(string)
+    port                = optional(number)
+    port_name           = optional(string)
+    request             = optional(string)
+    request_path        = optional(string)
+    host                = optional(string)
+    enable_log          = optional(bool)
   })
-  default = {
-    check_interval_sec  = 30
-    healthy_threshold   = 3
-    timeout_sec         = 5
-    unhealthy_threshold = 3
-    port                = 80
-    request_path        = "/"
-    host                = "localhost"
-  }
 }
 
+variable "health_check_http" {
+  description = "Health check to determine whether instances are responsive and able to do work"
+  type = object({
+    type                = string
+    check_interval_sec  = optional(number)
+    healthy_threshold   = optional(number)
+    timeout_sec         = optional(number)
+    unhealthy_threshold = optional(number)
+    response            = optional(string)
+    proxy_header        = optional(string)
+    port                = optional(number)
+    port_name           = optional(string)
+    request             = optional(string)
+    request_path        = optional(string)
+    host                = optional(string)
+    enable_log          = optional(bool)
+  })
+}
+
+variable "health_check_https" {
+  description = "Health check to determine whether instances are responsive and able to do work"
+  type = object({
+    type                = string
+    check_interval_sec  = optional(number)
+    healthy_threshold   = optional(number)
+    timeout_sec         = optional(number)
+    unhealthy_threshold = optional(number)
+    response            = optional(string)
+    proxy_header        = optional(string)
+    port                = optional(number)
+    port_name           = optional(string)
+    request             = optional(string)
+    request_path        = optional(string)
+    host                = optional(string)
+    enable_log          = optional(bool)
+  })
+}
 
 variable "source_tags" {
   description = "List of source tags for traffic between the internal load balancer."
